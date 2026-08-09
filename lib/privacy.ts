@@ -188,7 +188,7 @@ export const PRIVACY = {
       },
       {
         "type": "p",
-        "text": "Payment Data. We may collect data necessary to process your payment if you choose to make purchases, such as your payment instrument number, and the security code associated with your payment instrument. All payment data is handled and stored by Google Play, Apple App Store, Stripe and PayStack. You may find their privacy notice link(s) here: https://payments.google.com/legaldocument?family=0.privacynotice&hl=en-GB, https://www.apple.com/legal/applepayments/privacy-notice/, https://stripe.com/privacy and https://paystack.com/gh/privacy/merchant."
+        "text": "Payment Data. We may collect data necessary to process your payment if you choose to make purchases, such as your payment instrument number, and the security code associated with your payment instrument. All payment data is handled and stored by Stripe and PayStack. You may find their privacy notice link(s) here: https://stripe.com/privacy and https://paystack.com/gh/privacy/merchant."
       },
       {
         "type": "p",

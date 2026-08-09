@@ -35,7 +35,6 @@ export const FOOTER_LINKS = {
   ],
   company: [
     { label: "About us", href: "/about" },
-    { label: "Our stance on AI", href: "/stance" },
     { label: "Contact", href: `mailto:${CONTACT_EMAIL}` },
   ],
   legal: [
