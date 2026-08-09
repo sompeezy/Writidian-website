@@ -49,7 +49,7 @@ function LexiconHero() {
   return (
     <section
       ref={rootRef}
-      className="relative overflow-hidden bg-paper px-5 pb-20 pt-12 sm:px-8 sm:pb-28 sm:pt-16"
+      className="relative overflow-hidden bg-paper px-5 pb-10 pt-12 sm:px-8 sm:pb-14 sm:pt-16"
     >
       <div
         aria-hidden
@@ -74,13 +74,6 @@ function LexiconHero() {
           </span>
         </h1>
 
-        <p
-          data-lex
-          className="font-eyebrow mt-4 text-[12px] uppercase tracking-[0.2em] text-ink-muted sm:mt-5"
-        >
-          {lexicon.gloss}
-        </p>
-
         <div
           data-lex
           aria-hidden
@@ -94,27 +87,23 @@ function LexiconHero() {
           {coined}
         </p>
 
-        <dl data-lex className="mt-10 space-y-7 sm:mt-12 sm:space-y-8">
-          <div>
-            <dt className="font-eyebrow text-[11px] uppercase tracking-[0.2em] text-ink">
-              {lexicon.etymologyLabel}
-            </dt>
-            <dd className="mt-2 font-serif text-xl leading-snug text-ink sm:text-2xl">
-              {lexicon.etymology}{" "}
-              <span className="font-sans text-sm uppercase tracking-[0.16em] text-ink-muted">
-                ({lexicon.etymologyNote})
-              </span>
-            </dd>
-          </div>
-          <div>
-            <dt className="font-eyebrow text-[11px] uppercase tracking-[0.2em] text-ink">
-              {lexicon.meaningLabel}
-            </dt>
-            <dd className="mt-2 font-serif text-xl italic leading-snug text-ink sm:text-2xl">
-              {lexicon.meaning}
-            </dd>
-          </div>
-        </dl>
+        <p
+          data-lex
+          className="mt-8 font-serif text-[clamp(1.35rem,4.2vw,2.35rem)] leading-[1.3] text-ink sm:mt-10"
+        >
+          Write{" "}
+          <span className="text-ink-muted" aria-hidden>
+            +
+          </span>{" "}
+          Quotidian{" "}
+          <span className="font-sans text-[0.55em] uppercase tracking-[0.14em] text-ink-muted">
+            (every day)
+          </span>{" "}
+          <span className="text-ink-muted" aria-hidden>
+            =
+          </span>{" "}
+          <span className="italic">Write every day</span>
+        </p>
       </div>
     </section>
   );
@@ -125,7 +114,7 @@ function PhilosophyBands() {
 
   return (
     <>
-      <section className="bg-paper px-5 py-16 sm:px-8 sm:py-24">
+      <section className="bg-paper px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-10">
         <Reveal className="mx-auto max-w-3xl">
           <p className="font-eyebrow text-[11px] uppercase tracking-[0.22em] text-ink">
             Belief
@@ -200,9 +189,6 @@ function AudienceSection() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"
                 />
-                <p className="font-eyebrow absolute bottom-3 left-3 bg-espresso/55 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-paper backdrop-blur-[2px]">
-                  {row.imageLabel}
-                </p>
               </div>
               <div
                 className={`lg:col-span-3 ${
