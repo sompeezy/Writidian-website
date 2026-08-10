@@ -4,6 +4,7 @@ import {
   SITE,
   SOCIALS,
 } from "@/lib/constants";
+import { WritidianLogo } from "@/components/writidian-logo";
 
 function SocialIcon({ id }: { id: (typeof SOCIALS)[number]["id"] }) {
   if (id === "email") {
@@ -72,9 +73,10 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1">
             <a
               href="/"
-              className="font-serif text-lg text-ink transition-colors hover:text-ink/80"
+              className="inline-block transition-opacity hover:opacity-80"
+              aria-label={SITE.name}
             >
-              {SITE.name}
+              <WritidianLogo tone="light" height={32} />
             </a>
             <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-muted">
               {SITE.tagline}

@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useSound } from "@/components/sound-context";
+import { WritidianLogo } from "@/components/writidian-logo";
 import { APP_URL, SITE } from "@/lib/constants";
 import { useEffect, useId, useState } from "react";
 
@@ -134,9 +135,10 @@ export function Nav() {
         <div className="flex h-14 items-center justify-between gap-3 px-1 sm:h-16 sm:px-2">
           <a
             href="/"
-            className="group relative shrink-0 font-serif text-lg tracking-tight text-ink sm:text-2xl"
+            className="group relative shrink-0"
+            aria-label={SITE.name}
           >
-            {SITE.name}
+            <WritidianLogo tone="light" height={32} />
             <span
               aria-hidden
               className="absolute -bottom-0.5 left-0 h-px w-[1.1em] origin-left bg-gold transition-transform duration-500 group-hover:scale-x-125"
@@ -242,10 +244,11 @@ export function Nav() {
           <div className="flex items-center justify-between px-4 py-2">
             <a
               href="/"
-              className="font-serif text-xl tracking-tight text-ink"
+              className="shrink-0"
+              aria-label={SITE.name}
               onClick={() => setMenuOpen(false)}
             >
-              {SITE.name}
+              <WritidianLogo tone="light" height={28} />
             </a>
             <button
               type="button"
