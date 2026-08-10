@@ -61,81 +61,67 @@ export function Editor() {
         return;
       }
 
-      const mm = gsap.matchMedia();
+      const isMobile = window.matchMedia("(max-width: 639px)").matches;
 
-      mm.add("(max-width: 639px)", () => {
-        gsap.set(frame, { opacity: 0, y: 56, scale: 0.96 });
-        gsap.set(lineEls, { opacity: 1, x: 0 });
-        typedEls.forEach((el) => {
-          if (el) el.textContent = "";
+      gsap.set(frame, {
+        opacity: 0,
+        y: isMobile ? 56 : 80,
+        scale: isMobile ? 0.96 : 0.94,
+      });
+      gsap.set(lineEls, { opacity: 1, x: 0 });
+      typedEls.forEach((el) => {
+        if (el) el.textContent = "";
+      });
+      showCaret(0);
+
+      const states = typedEls.map(() => ({ n: 0 }));
+
+      const syncTyped = () => {
+        let active: number | null = null;
+        typedEls.forEach((el, i) => {
+          if (!el) return;
+          const full = LINES[i];
+          const n = Math.min(full.length, Math.round(states[i].n));
+          el.textContent = full.slice(0, n);
+          if (active === null && n < full.length) active = i;
         });
-        showCaret(0);
+        showCaret(active);
+      };
 
-        const states = typedEls.map(() => ({ n: 0 }));
-
-        const syncTyped = () => {
-          let active: number | null = null;
-          typedEls.forEach((el, i) => {
-            if (!el) return;
-            const full = LINES[i];
-            const n = Math.min(full.length, Math.round(states[i].n));
-            el.textContent = full.slice(0, n);
-            if (active === null && n < full.length) active = i;
-          });
-          showCaret(active);
-        };
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: root,
-            start: "top 78%",
-            end: "bottom 45%",
-            scrub: 1.05,
-          },
-          onUpdate: syncTyped,
-        });
-
-        tl.to(frame, { opacity: 1, y: 0, scale: 1, duration: 0.35 }, 0);
-
-        let cursor = 0.28;
-        states.forEach((state, i) => {
-          const duration = Math.max(0.32, LINES[i].length * 0.016);
-          tl.to(state, { n: LINES[i].length, duration, ease: "none" }, cursor);
-          cursor += duration + 0.06;
-        });
-
-        return () => {
-          typedEls.forEach((el, i) => {
-            if (el) el.textContent = LINES[i];
-          });
-          showCaret(null);
-        };
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: isMobile ? "top 78%" : "top 65%",
+          end: isMobile ? "bottom 45%" : "bottom 55%",
+          scrub: 1.05,
+        },
+        onUpdate: syncTyped,
       });
 
-      mm.add("(min-width: 640px)", () => {
+      tl.to(
+        frame,
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: isMobile ? 0.35 : 0.4,
+        },
+        0,
+      );
+
+      let cursor = 0.28;
+      states.forEach((state, i) => {
+        const duration = Math.max(0.32, LINES[i].length * 0.016);
+        tl.to(state, { n: LINES[i].length, duration, ease: "none" }, cursor);
+        cursor += duration + 0.06;
+      });
+
+      return () => {
         typedEls.forEach((el, i) => {
           if (el) el.textContent = LINES[i];
         });
         showCaret(null);
-        gsap.set(frame, { opacity: 0, y: 80, scale: 0.94 });
-        gsap.set(lineEls, { opacity: 0, x: -24 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: root,
-            start: "top 65%",
-            end: "bottom 55%",
-            scrub: 1.05,
-          },
-        });
-
-        tl.to(frame, { opacity: 1, y: 0, scale: 1, duration: 0.4 }, 0);
-        lineEls.forEach((line, i) => {
-          tl.to(line, { opacity: 1, x: 0, duration: 0.25 }, 0.2 + i * 0.18);
-        });
-      });
-
-      return () => mm.revert();
+      };
     },
     { dependencies: [] },
   );
