@@ -89,7 +89,7 @@ function LexiconHero() {
 
         <p
           data-lex
-          className="mt-8 font-serif text-[clamp(1.35rem,4.2vw,2.35rem)] leading-[1.3] text-ink sm:mt-10"
+          className="mt-8 font-serif text-[clamp(1.2rem,3.5vw,2rem)] leading-[1.3] text-ink sm:mt-10"
         >
           Write{" "}
           <span className="text-ink-muted" aria-hidden>
