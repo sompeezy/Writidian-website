@@ -8,14 +8,16 @@ export type AmbientHandle = {
   stop: () => void;
 };
 
-/** MPEG beds in /public — matched to SOUNDSCAPE_SCENES titles. */
+/** Clean MP3 beds in /public/audio — matched to SOUNDSCAPE_SCENES titles. */
 export const SOUNDSCAPE_AUDIO_URLS = {
-  journaling: "/Bubbly%20reflection.mpeg",
-  "literary-fiction": "/Dusty%20Photo%20Frame.mpeg",
-  romance: "/Amber%20Drift.mpeg",
-  horror: "/Basement%20Door%20Ajar.mpeg",
-  "non-binaural": "/Light%20rain%20%2B%20Birdsong.mpeg",
+  journaling: "/audio/bubbly-reflection.mp3",
+  "literary-fiction": "/audio/dusty-photo-frame.mp3",
+  romance: "/audio/amber-drift.mp3",
+  horror: "/audio/basement-door-ajar.mp3",
+  "non-binaural": "/audio/light-rain-birdsong.mp3",
 } as const;
+
+export type SoundscapeSceneId = keyof typeof SOUNDSCAPE_AUDIO_URLS;
 
 /** Loop a decoded audio file with the same gain API as synth beds. */
 export async function createSampleAmbience(
@@ -28,6 +30,10 @@ export async function createSampleAmbience(
     throw new Error(`Failed to load ambience: ${url}`);
   }
   const arrayBuffer = await response.arrayBuffer();
+  if (arrayBuffer.byteLength < 64) {
+    throw new Error(`Ambience file too small: ${url}`);
+  }
+  // Copy before decode — some browsers detach the original ArrayBuffer.
   const buffer = await ctx.decodeAudioData(arrayBuffer.slice(0));
 
   const master = ctx.createGain();
@@ -299,6 +305,33 @@ export function createRainBirdsongAmbience(ctx: AudioContext): AmbientHandle {
     if (timer) window.clearTimeout(timer);
   });
   return bus;
+}
+
+const SOUNDSCAPE_SYNTH_FALLBACKS: Record<
+  SoundscapeSceneId,
+  (ctx: AudioContext) => AmbientHandle
+> = {
+  journaling: createBubblyReflectionAmbience,
+  "literary-fiction": createDustyPhotoFrameAmbience,
+  romance: createAmberDriftAmbience,
+  horror: createBasementDoorAjarAmbience,
+  "non-binaural": createRainBirdsongAmbience,
+};
+
+/** Prefer the recorded bed; fall back to the matching synth ambience. */
+export async function createSoundscapeAmbience(
+  ctx: AudioContext,
+  scene: SoundscapeSceneId,
+): Promise<AmbientHandle> {
+  try {
+    return await createSampleAmbience(ctx, SOUNDSCAPE_AUDIO_URLS[scene]);
+  } catch (error) {
+    console.warn(
+      `[ambient-audio] Falling back to synth for "${scene}"`,
+      error,
+    );
+    return SOUNDSCAPE_SYNTH_FALLBACKS[scene](ctx);
+  }
 }
 
 /** Soft, very calm writing-studio bed: airy sine pad + gentle breath noise */

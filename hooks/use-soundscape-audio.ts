@@ -3,21 +3,15 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useSound } from "@/components/sound-context";
 import {
-  createSampleAmbience,
+  createSoundscapeAmbience,
   SOUNDSCAPE_AUDIO_URLS,
   type AmbientHandle,
+  type SoundscapeSceneId,
 } from "@/lib/ambient-audio";
 
-export type SoundscapeSceneId =
-  | "journaling"
-  | "literary-fiction"
-  | "romance"
-  | "horror"
-  | "non-binaural";
+export type { SoundscapeSceneId };
 
-const SCENE_IDS = Object.keys(
-  SOUNDSCAPE_AUDIO_URLS,
-) as SoundscapeSceneId[];
+const SCENE_IDS = Object.keys(SOUNDSCAPE_AUDIO_URLS) as SoundscapeSceneId[];
 
 export function useSoundscapeAudio() {
   const { muted, unlockAudio } = useSound();
@@ -64,10 +58,7 @@ export function useSoundscapeAudio() {
       loadingRef.current = (async () => {
         const loaded = await Promise.all(
           SCENE_IDS.map(async (id) => {
-            const bed = await createSampleAmbience(
-              ctx,
-              SOUNDSCAPE_AUDIO_URLS[id],
-            );
+            const bed = await createSoundscapeAmbience(ctx, id);
             return [id, bed] as const;
           }),
         );

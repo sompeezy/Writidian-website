@@ -105,6 +105,299 @@ function getNarrowServerSnapshot() {
   return false;
 }
 
+function StaticMomentumDisplay() {
+  return (
+    <div className="flex flex-col items-center justify-center px-4 py-8">
+      <div
+        className="mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-gold/40 bg-transparent shadow-[0_0_28px_rgba(163,138,94,0.3)]"
+        aria-hidden
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          className="text-gold"
+        >
+          <path
+            d="M12 2s5 5.2 5 10a5 5 0 1 1-10 0c0-2.4 1.4-4.8 3-6.5C10.8 7.2 12 9 12 9s.7-1.6 1.6-2.8C15 4.4 12 2 12 2Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <p className="font-serif text-5xl text-ink">{MOMENTUM.value}</p>
+      <p className="mt-1 text-xs uppercase tracking-[0.18em] text-gold">
+        Days Streak
+      </p>
+      <div className="mt-8 flex gap-2" aria-hidden>
+        {MOMENTUM.daysActive.map((active, i) => (
+          <span
+            key={i}
+            className={`h-3 w-3 rounded-full sm:h-3.5 sm:w-3.5 ${
+              active ? "bg-gold" : "bg-ink/15"
+            }`}
+          />
+        ))}
+      </div>
+      <div className="mt-3 flex w-full max-w-xs justify-between px-1 text-[9px] uppercase tracking-[0.12em] text-ink-muted">
+        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+          <span key={`${d}-${i}`}>{d}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StaticWordsDisplay() {
+  return (
+    <div className="flex flex-col px-4 py-6">
+      <p className="text-center font-serif text-5xl text-ink">
+        {STAT_PANELS[1].value}
+      </p>
+      <p className="mt-1 text-center text-xs uppercase tracking-[0.18em] text-gold">
+        Words Flowed
+      </p>
+      <div
+        className="mt-8 flex h-40 items-end justify-between gap-2 sm:h-48 sm:gap-3"
+        aria-hidden
+      >
+        {STAT_WEEK.map((d) => (
+          <div
+            key={d.day}
+            className="flex h-full flex-1 flex-col items-center justify-end gap-2"
+          >
+            <div
+              className="w-full rounded-t-md bg-gold/85"
+              style={{ height: `${d.h}%` }}
+            />
+            <span className="text-[9px] uppercase tracking-[0.1em] text-ink-muted">
+              {d.day}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StaticSanctuaryDisplay() {
+  const progress = "progress" in STAT_PANELS[2] ? STAT_PANELS[2].progress : 0.72;
+  const sessions = "sessions" in STAT_PANELS[2] ? STAT_PANELS[2].sessions : 18;
+  const radius = 42;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference * (1 - progress);
+
+  return (
+    <div className="flex flex-col items-center justify-center px-4 py-8">
+      <div className="relative flex h-44 w-44 items-center justify-center sm:h-52 sm:w-52">
+        <svg
+          viewBox="0 0 100 100"
+          className="absolute inset-0 h-full w-full -rotate-90"
+          aria-hidden
+        >
+          <circle
+            cx="50"
+            cy="50"
+            r={radius}
+            fill="none"
+            stroke="color-mix(in srgb, var(--ink) 10%, transparent)"
+            strokeWidth="6"
+          />
+          <circle
+            cx="50"
+            cy="50"
+            r={radius}
+            fill="none"
+            stroke="var(--gold)"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={offset}
+          />
+        </svg>
+        <div className="relative z-10 text-center">
+          <p className="font-serif text-4xl text-ink sm:text-5xl">
+            {STAT_PANELS[2].value}
+          </p>
+          <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-gold">
+            hours
+          </p>
+        </div>
+      </div>
+      <p className="mt-6 text-sm text-ink-muted">
+        <span className="text-ink">{sessions}</span> focused sessions
+      </p>
+    </div>
+  );
+}
+
+function StaticCompassDisplay() {
+  const axes = COMPASS.axes;
+  const radarPoints = axes
+    .map((axis, i) => {
+      const pt = compassPoint(i, axes.length, 38 + axis.value * 48);
+      return `${pt.x.toFixed(2)},${pt.y.toFixed(2)}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="flex flex-col items-center justify-center px-4 py-6">
+      <div className="relative h-56 w-56 sm:h-64 sm:w-64">
+        <svg viewBox="0 0 200 200" className="h-full w-full" aria-hidden>
+          {[0.35, 0.55, 0.75, 0.95].map((scale) => (
+            <circle
+              key={scale}
+              cx="100"
+              cy="100"
+              r={38 + scale * 48}
+              fill="none"
+              stroke="color-mix(in srgb, var(--gold) 22%, transparent)"
+              strokeWidth="1"
+            />
+          ))}
+          {axes.map((_, i) => {
+            const end = compassPoint(i, axes.length, 86);
+            return (
+              <line
+                key={i}
+                x1="100"
+                y1="100"
+                x2={end.x}
+                y2={end.y}
+                stroke="color-mix(in srgb, var(--gold) 20%, transparent)"
+                strokeWidth="1"
+              />
+            );
+          })}
+          <polygon
+            points={radarPoints}
+            fill="color-mix(in srgb, var(--gold) 35%, transparent)"
+            stroke="var(--gold)"
+            strokeWidth="2"
+          />
+        </svg>
+        {axes.map((axis, i) => {
+          const pt = compassPoint(i, axes.length, 96);
+          return (
+            <span
+              key={axis.label}
+              className="absolute -translate-x-1/2 -translate-y-1/2 text-[9px] uppercase tracking-[0.1em] text-gold sm:text-[10px]"
+              style={{
+                left: `${(pt.x / 200) * 100}%`,
+                top: `${(pt.y / 200) * 100}%`,
+              }}
+            >
+              {axis.label}
+            </span>
+          );
+        })}
+      </div>
+      <p className="mt-2 font-serif text-xl text-ink">
+        {COMPASS.value} · {COMPASS.unit}
+      </p>
+    </div>
+  );
+}
+
+function StaticResonanceDisplay() {
+  const bars = RESONANCE.bars;
+
+  return (
+    <div className="flex flex-col px-4 py-6">
+      <p className="text-[10px] uppercase tracking-[0.18em] text-gold">
+        Resonance
+      </p>
+      <div className="mt-5 space-y-3.5" aria-hidden>
+        {bars.map((bar) => (
+          <div key={bar.label}>
+            <div className="mb-1.5 flex items-center justify-between text-[11px]">
+              <span className="text-ink">{bar.label}</span>
+              <span className="text-ink-muted">
+                {Math.round(bar.value * 100)}%
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-ink/8">
+              <div
+                className="h-full rounded-full bg-gold"
+                style={{ width: `${bar.value * 100}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <svg
+        viewBox="0 0 200 36"
+        className="mt-5 h-8 w-full text-gold"
+        aria-hidden
+      >
+        <path
+          d="M0 18 Q20 10 40 18 T80 18 T120 18 T160 18 T200 18"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          opacity="0.7"
+        />
+      </svg>
+    </div>
+  );
+}
+
+function StaticRhythmDisplay() {
+  return (
+    <div className="flex flex-col px-4 py-6">
+      <div className="flex items-center justify-between">
+        <p className="text-[10px] uppercase tracking-[0.18em] text-gold">
+          Writing Rhythm
+        </p>
+        <p className="text-[10px] text-ink-muted">2026</p>
+      </div>
+      <div
+        className="mt-6 grid grid-cols-12 content-start gap-1.5 sm:gap-2"
+        aria-hidden
+      >
+        {STAT_HEAT_LEVELS.map((level, i) => (
+          <div
+            key={i}
+            className={`aspect-square rounded-[3px] sm:rounded-sm ${cellTone(level)}`}
+          />
+        ))}
+      </div>
+      <div className="mt-3 flex justify-between text-[9px] uppercase tracking-[0.12em] text-ink-muted">
+        {RHYTHM.months.map((m, i) => (
+          <span key={`${m}-${i}`}>{m}</span>
+        ))}
+      </div>
+      <div className="mt-3 flex items-center justify-end gap-1.5 text-[10px] text-ink-muted">
+        <span>Less</span>
+        <span className="h-2.5 w-2.5 rounded-[2px] bg-ink/8" />
+        <span className="h-2.5 w-2.5 rounded-[2px] bg-gold/30" />
+        <span className="h-2.5 w-2.5 rounded-[2px] bg-gold/60" />
+        <span className="h-2.5 w-2.5 rounded-[2px] bg-gold" />
+        <span>More</span>
+      </div>
+    </div>
+  );
+}
+
+function StaticPanelDisplay({ id }: { id: StatPanelId }) {
+  switch (id) {
+    case "momentum":
+      return <StaticMomentumDisplay />;
+    case "words":
+      return <StaticWordsDisplay />;
+    case "sanctuary":
+      return <StaticSanctuaryDisplay />;
+    case "compass":
+      return <StaticCompassDisplay />;
+    case "resonance":
+      return <StaticResonanceDisplay />;
+    case "rhythm":
+      return <StaticRhythmDisplay />;
+    default:
+      return null;
+  }
+}
+
 function MobileStatsStack() {
   return (
     <section
@@ -114,48 +407,25 @@ function MobileStatsStack() {
       className="scroll-mt-24 bg-surface/50 px-5 py-16 sm:px-8 sm:py-24"
     >
       <div className="mx-auto max-w-3xl">
-        {STAGES.map((stage) => (
-          <div key={stage.id} className="mb-12 last:mb-0">
-            <h2 className="font-serif text-[clamp(1.6rem,5vw,2.5rem)] leading-[1.1] tracking-tight text-ink">
-              {stage.title}
-            </h2>
-            <p className="font-accent mt-4 text-base leading-relaxed text-ink-muted">
-              {stage.body}
-            </p>
-            {stage.bullets ? (
-              <ul className="font-accent mt-4 space-y-2 text-base leading-relaxed text-ink-muted">
-                {stage.bullets.map((bullet) => (
-                  <li key={bullet} className="flex gap-3">
-                    <span
-                      aria-hidden
-                      className="mt-[0.6em] h-1 w-1 shrink-0 rounded-full bg-gold"
-                    />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-        ))}
+        <h2 className="font-serif text-[clamp(1.6rem,5vw,2.5rem)] leading-[1.1] tracking-tight text-ink">
+          {COPY.statsTitle}
+        </h2>
+        <p className="font-accent mt-4 text-base leading-relaxed text-ink-muted">
+          {COPY.statsBody}
+        </p>
 
-        <div className="mt-4 space-y-4">
+        <div className="mt-12 space-y-14">
           {STAT_PANELS.map((panel) => (
-            <article
-              key={panel.id}
-              className="rounded-2xl border border-ink/8 bg-paper/70 px-5 py-5"
-            >
-              <p className="font-eyebrow text-[11px] uppercase tracking-[0.18em] text-gold">
+            <article key={panel.id}>
+              <h3 className="font-serif text-[clamp(1.35rem,4vw,1.85rem)] leading-tight tracking-tight text-ink">
                 {panel.label}
-              </p>
-              <p className="mt-3 font-serif text-3xl text-ink">
-                {panel.value}
-                {panel.unit ? (
-                  <span className="ml-1 text-base text-gold">{panel.unit}</span>
-                ) : null}
-              </p>
-              <p className="mt-2 text-base leading-relaxed text-ink-muted">
+              </h3>
+              <p className="font-accent mt-2 text-base leading-relaxed text-ink-muted">
                 {panel.caption}
               </p>
+              <div className="mt-5 overflow-hidden rounded-2xl border border-ink/8 bg-paper/70">
+                <StaticPanelDisplay id={panel.id} />
+              </div>
             </article>
           ))}
         </div>

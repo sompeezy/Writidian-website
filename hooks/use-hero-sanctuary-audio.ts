@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useSound } from "@/components/sound-context";
 import {
-  createSampleAmbience,
-  SOUNDSCAPE_AUDIO_URLS,
+  createSoundscapeAmbience,
   type AmbientHandle,
 } from "@/lib/ambient-audio";
 
@@ -37,9 +36,9 @@ export function useHeroSanctuaryAudio() {
     if (!ctx) return;
     if (!padRef.current) {
       if (!loadingRef.current) {
-        loadingRef.current = createSampleAmbience(
+        loadingRef.current = createSoundscapeAmbience(
           ctx,
-          SOUNDSCAPE_AUDIO_URLS.journaling,
+          "journaling",
         ).finally(() => {
           loadingRef.current = null;
         });
