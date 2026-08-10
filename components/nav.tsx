@@ -135,14 +135,10 @@ export function Nav() {
         <div className="flex h-14 items-center justify-between gap-3 px-1 sm:h-16 sm:px-2">
           <a
             href="/"
-            className="group relative shrink-0"
+            className="shrink-0"
             aria-label={SITE.name}
           >
             <WritidianLogo tone="light" height={44} />
-            <span
-              aria-hidden
-              className="absolute -bottom-0.5 left-0 h-px w-[1.1em] origin-left bg-gold transition-transform duration-500 group-hover:scale-x-125"
-            />
           </a>
 
           <nav
