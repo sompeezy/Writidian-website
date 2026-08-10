@@ -138,7 +138,7 @@ export function Nav() {
             className="group relative shrink-0"
             aria-label={SITE.name}
           >
-            <WritidianLogo tone="light" height={32} />
+            <WritidianLogo tone="light" height={44} />
             <span
               aria-hidden
               className="absolute -bottom-0.5 left-0 h-px w-[1.1em] origin-left bg-gold transition-transform duration-500 group-hover:scale-x-125"
@@ -248,7 +248,7 @@ export function Nav() {
               aria-label={SITE.name}
               onClick={() => setMenuOpen(false)}
             >
-              <WritidianLogo tone="light" height={28} />
+              <WritidianLogo tone="light" height={36} />
             </a>
             <button
               type="button"

@@ -8,6 +8,10 @@ type CursorMode = "default" | "scroll" | "open";
 const INTERACTIVE_SELECTOR =
   'a[href], button, [role="button"], summary, label[for], input, textarea, select';
 
+/** Trimmed nib asset aspect (149×249). */
+const NIB_W = 22;
+const NIB_H = Math.round((NIB_W * 249) / 149);
+
 function canUseCustomCursor() {
   if (typeof window === "undefined") return false;
   return (
@@ -138,23 +142,25 @@ export function CustomCursor() {
       }`}
       style={{ transition: "opacity 120ms ease" }}
     >
-      {/* Tip at follower origin: image tip is bottom-center before rotate(135deg) */}
+      {/* Tip at origin: trimmed nib tip is bottom-center; 135deg CW aims top-left */}
       <div
         className={`absolute left-0 top-0 transition-opacity duration-200 ${
-          isCircle ? "opacity-0" : "opacity-100"
+          isCircle ? "pointer-events-none opacity-0" : "opacity-100"
         }`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={nibSrc}
           alt=""
-          width={28}
-          height={28}
+          width={NIB_W}
+          height={NIB_H}
           draggable={false}
-          className="block h-7 w-7 object-contain"
+          className="block max-w-none select-none"
           style={{
-            marginLeft: -14,
-            marginTop: -28,
+            width: NIB_W,
+            height: NIB_H,
+            marginLeft: -NIB_W / 2,
+            marginTop: -NIB_H,
             transform: "rotate(135deg)",
             transformOrigin: "50% 100%",
           }}
@@ -170,7 +176,7 @@ export function CustomCursor() {
             : "border-gold/50 bg-espresso text-paper"
         }`}
       >
-        <span className="font-eyebrow text-[10px] uppercase tracking-[0.18em]">
+        <span className="font-eyebrow text-[8px] uppercase tracking-[0.16em]">
           {label}
         </span>
       </div>

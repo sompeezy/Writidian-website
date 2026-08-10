@@ -76,7 +76,7 @@ export function Footer() {
               className="inline-block transition-opacity hover:opacity-80"
               aria-label={SITE.name}
             >
-              <WritidianLogo tone="light" height={32} />
+              <WritidianLogo tone="light" height={48} />
             </a>
             <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink-muted">
               {SITE.tagline}

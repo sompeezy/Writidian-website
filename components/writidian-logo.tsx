@@ -9,22 +9,26 @@ type WritidianLogoProps = {
   height?: number;
 };
 
+/** Trimmed lockup aspect from logo-*.png (333×158). */
+const ASPECT = 333 / 158;
+
 export function WritidianLogo({
   tone = "light",
   className = "",
-  height = 32,
+  height = 40,
 }: WritidianLogoProps) {
   const src =
     tone === "dark" ? "/images/logo-light.png" : "/images/logo-dark.png";
+  const width = Math.round(height * ASPECT);
 
   return (
     <Image
       src={src}
       alt={SITE.name}
-      width={height}
+      width={width}
       height={height}
       className={`object-contain object-left ${className}`}
-      style={{ height, width: "auto", maxWidth: height * 4 }}
+      style={{ height, width }}
       priority
     />
   );
