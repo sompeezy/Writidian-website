@@ -14,6 +14,9 @@ const LINES = [
   "\u201CWe need to go now! They\u2019ll be here any minute!\u201D she yelled over me as I lay on the cold hard floor.",
 ];
 
+const CARET_CLASS =
+  "ml-0.5 inline-block h-[1.1em] w-0.5 animate-pulse bg-[#C6A87C] align-middle motion-reduce:animate-none";
+
 export function Editor() {
   const rootRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -29,32 +32,110 @@ export function Editor() {
       const reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
-      const lines = gsap.utils.toArray<HTMLElement>(
+      const lineEls = gsap.utils.toArray<HTMLElement>(
         linesBox.querySelectorAll("[data-line]"),
       );
+      const typedEls = lineEls.map(
+        (line) => line.querySelector<HTMLElement>("[data-typed]"),
+      );
+      const caretEls = lineEls.map(
+        (line) => line.querySelector<HTMLElement>("[data-caret]"),
+      );
+      const endCaret = linesBox.querySelector<HTMLElement>("[data-end-caret]");
+
+      const showCaret = (activeIndex: number | null) => {
+        caretEls.forEach((caret, i) => {
+          if (!caret) return;
+          caret.hidden = activeIndex !== i;
+        });
+        if (endCaret) endCaret.hidden = activeIndex !== null;
+      };
 
       if (reduced) {
         gsap.set(frame, { opacity: 1, y: 0, scale: 1 });
-        gsap.set(lines, { opacity: 1, x: 0 });
+        typedEls.forEach((el, i) => {
+          if (el) el.textContent = LINES[i];
+        });
+        gsap.set(lineEls, { opacity: 1, x: 0 });
+        showCaret(null);
         return;
       }
 
-      gsap.set(frame, { opacity: 0, y: 80, scale: 0.94 });
-      gsap.set(lines, { opacity: 0, x: -24 });
+      const mm = gsap.matchMedia();
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root,
-          start: "top 65%",
-          end: "bottom 55%",
-          scrub: 1.05,
-        },
+      mm.add("(max-width: 639px)", () => {
+        gsap.set(frame, { opacity: 0, y: 56, scale: 0.96 });
+        gsap.set(lineEls, { opacity: 1, x: 0 });
+        typedEls.forEach((el) => {
+          if (el) el.textContent = "";
+        });
+        showCaret(0);
+
+        const states = typedEls.map(() => ({ n: 0 }));
+
+        const syncTyped = () => {
+          let active: number | null = null;
+          typedEls.forEach((el, i) => {
+            if (!el) return;
+            const full = LINES[i];
+            const n = Math.min(full.length, Math.round(states[i].n));
+            el.textContent = full.slice(0, n);
+            if (active === null && n < full.length) active = i;
+          });
+          showCaret(active);
+        };
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: root,
+            start: "top 78%",
+            end: "bottom 45%",
+            scrub: 1.05,
+          },
+          onUpdate: syncTyped,
+        });
+
+        tl.to(frame, { opacity: 1, y: 0, scale: 1, duration: 0.35 }, 0);
+
+        let cursor = 0.28;
+        states.forEach((state, i) => {
+          const duration = Math.max(0.32, LINES[i].length * 0.016);
+          tl.to(state, { n: LINES[i].length, duration, ease: "none" }, cursor);
+          cursor += duration + 0.06;
+        });
+
+        return () => {
+          typedEls.forEach((el, i) => {
+            if (el) el.textContent = LINES[i];
+          });
+          showCaret(null);
+        };
       });
 
-      tl.to(frame, { opacity: 1, y: 0, scale: 1, duration: 0.4 }, 0);
-      lines.forEach((line, i) => {
-        tl.to(line, { opacity: 1, x: 0, duration: 0.25 }, 0.2 + i * 0.18);
+      mm.add("(min-width: 640px)", () => {
+        typedEls.forEach((el, i) => {
+          if (el) el.textContent = LINES[i];
+        });
+        showCaret(null);
+        gsap.set(frame, { opacity: 0, y: 80, scale: 0.94 });
+        gsap.set(lineEls, { opacity: 0, x: -24 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: root,
+            start: "top 65%",
+            end: "bottom 55%",
+            scrub: 1.05,
+          },
+        });
+
+        tl.to(frame, { opacity: 1, y: 0, scale: 1, duration: 0.4 }, 0);
+        lineEls.forEach((line, i) => {
+          tl.to(line, { opacity: 1, x: 0, duration: 0.25 }, 0.2 + i * 0.18);
+        });
       });
+
+      return () => mm.revert();
     },
     { dependencies: [] },
   );
@@ -139,18 +220,21 @@ export function Editor() {
           <div
             ref={linesRef}
             className="min-h-[14rem] space-y-4 px-4 py-8 sm:min-h-[18rem] sm:space-y-5 sm:px-8 sm:py-10"
+            aria-label={LINES.join(" ")}
           >
             {LINES.map((line) => (
               <p
                 key={line}
                 data-line
+                aria-hidden
                 className="font-serif text-lg leading-relaxed text-[#F9F8F4] sm:text-xl"
               >
-                {line}
+                <span data-typed>{line}</span>
+                <span data-caret hidden className={CARET_CLASS} />
               </p>
             ))}
-            <p className="font-serif text-lg text-[#F9F8F4] sm:text-xl">
-              <span className="inline-block h-[1.1em] w-0.5 animate-pulse bg-[#C6A87C] align-middle motion-reduce:animate-none" />
+            <p aria-hidden className="font-serif text-lg text-[#F9F8F4] sm:text-xl">
+              <span data-end-caret className={CARET_CLASS} />
             </p>
           </div>
 
