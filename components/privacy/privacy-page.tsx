@@ -143,7 +143,7 @@ function ContentsNav() {
 
 export function PrivacyPageContent() {
   return (
-    <div className="bg-paper">
+    <div data-cursor-tone="light" className="bg-paper">
       <header className="relative overflow-hidden border-b border-ink/8">
         <div
           aria-hidden

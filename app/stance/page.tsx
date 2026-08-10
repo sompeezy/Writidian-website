@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function StancePage() {
   return (
     <SiteShell>
-      <section className="bg-paper pt-6 sm:pt-10">
+      <section data-cursor-tone="light" className="bg-paper pt-6 sm:pt-10">
         <PageHero
           title="Our stance on AI"
           lead="For people who still want to think on the page."

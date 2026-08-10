@@ -191,6 +191,7 @@ export function Prompt() {
     <section
       id="prompt"
       ref={rootRef}
+      data-cursor-tone="light"
       className="relative scroll-mt-24 overflow-hidden bg-surface/60 px-5 py-20 sm:px-8 sm:py-48"
     >
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-2 lg:gap-20">

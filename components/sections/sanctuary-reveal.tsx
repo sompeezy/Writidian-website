@@ -382,6 +382,8 @@ export function SanctuaryReveal() {
     <div
       id="sanctuary"
       ref={rootRef}
+      data-cursor="scroll"
+      data-cursor-tone="dark"
       className="relative h-[200vh] scroll-mt-24 md:h-[260vh]"
       aria-label="Clear the noise"
     >

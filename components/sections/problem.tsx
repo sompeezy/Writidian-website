@@ -170,6 +170,8 @@ export function Problem() {
   return (
     <section
       ref={rootRef}
+      data-cursor="scroll"
+      data-cursor-tone="dark"
       className="relative h-[170vh] scroll-mt-24 bg-espresso text-paper md:h-[220vh]"
     >
       <div

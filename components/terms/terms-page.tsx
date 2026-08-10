@@ -69,7 +69,7 @@ function ContentsNav() {
 
 export function TermsPageContent() {
   return (
-    <div className="bg-paper">
+    <div data-cursor-tone="light" className="bg-paper">
       <header className="relative overflow-hidden border-b border-ink/8">
         <div
           aria-hidden

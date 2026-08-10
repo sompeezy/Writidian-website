@@ -156,6 +156,7 @@ export function Hero() {
     <section
       id="top"
       ref={rootRef}
+      data-cursor-tone="light"
       className="relative flex min-h-[100dvh] items-center overflow-hidden bg-paper pb-[env(safe-area-inset-bottom)]"
     >
       <div

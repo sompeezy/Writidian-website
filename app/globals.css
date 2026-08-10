@@ -47,6 +47,11 @@ body {
   overflow-x: hidden;
 }
 
+html[data-custom-cursor="on"],
+html[data-custom-cursor="on"] * {
+  cursor: none !important;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--gold) 35%, transparent);
   color: var(--espresso);

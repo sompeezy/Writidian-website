@@ -156,6 +156,8 @@ export function Soundscapes() {
     <section
       id="soundscapes"
       ref={rootRef}
+      data-cursor="scroll"
+      data-cursor-tone="dark"
       className="relative h-[250vh] scroll-mt-24 bg-paper md:h-[320vh]"
     >
       <div

@@ -63,6 +63,7 @@ export function Editor() {
     <section
       id="editor"
       ref={rootRef}
+      data-cursor-tone="light"
       className="scroll-mt-24 bg-paper px-5 py-20 sm:px-8 sm:py-48"
     >
       <div className="mx-auto max-w-4xl">

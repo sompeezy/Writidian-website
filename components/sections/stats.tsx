@@ -109,6 +109,8 @@ function MobileStatsStack() {
   return (
     <section
       id="stats"
+      data-cursor="scroll"
+      data-cursor-tone="light"
       className="scroll-mt-24 bg-surface/50 px-5 py-16 sm:px-8 sm:py-24"
     >
       <div className="mx-auto max-w-3xl">
@@ -634,6 +636,8 @@ export function Stats() {
     <section
       id="stats"
       ref={rootRef}
+      data-cursor="scroll"
+      data-cursor-tone="light"
       className="relative h-[520vh] scroll-mt-24 bg-surface/50 md:h-[620vh]"
     >
       <div

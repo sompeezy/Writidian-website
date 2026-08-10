@@ -6,7 +6,7 @@ import { COPY } from "@/lib/constants";
 
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-espresso px-5 py-20 pb-[max(5rem,env(safe-area-inset-bottom))] text-paper sm:px-8 sm:py-48">
+    <section data-cursor-tone="dark" className="relative overflow-hidden bg-espresso px-5 py-20 pb-[max(5rem,env(safe-area-inset-bottom))] text-paper sm:px-8 sm:py-48">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-40"

@@ -6,6 +6,7 @@ import {
   merriweather,
   sourceSans,
 } from "@/app/fonts";
+import { CustomCursor } from "@/components/custom-cursor";
 import { SoundProvider } from "@/components/sound-context";
 import { SITE } from "@/lib/constants";
 import "./globals.css";
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body className="min-h-full overflow-x-hidden bg-paper font-sans text-ink">
         <SoundProvider>
           <div className="grain" aria-hidden />
+          <CustomCursor />
           {children}
         </SoundProvider>
       </body>

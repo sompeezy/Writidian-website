@@ -49,6 +49,7 @@ function LexiconHero() {
   return (
     <section
       ref={rootRef}
+      data-cursor-tone="light"
       className="relative overflow-hidden bg-paper px-5 pb-10 pt-12 sm:px-8 sm:pb-14 sm:pt-16"
     >
       <div
@@ -114,7 +115,7 @@ function PhilosophyBands() {
 
   return (
     <>
-      <section className="bg-paper px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-10">
+      <section data-cursor-tone="light" className="bg-paper px-5 pb-16 pt-8 sm:px-8 sm:pb-24 sm:pt-10">
         <Reveal className="mx-auto max-w-3xl">
           <p className="font-eyebrow text-[11px] uppercase tracking-[0.22em] text-ink">
             Belief
@@ -125,7 +126,7 @@ function PhilosophyBands() {
         </Reveal>
       </section>
 
-      <section className="relative overflow-hidden bg-espresso px-5 py-20 text-paper sm:px-8 sm:py-28">
+      <section data-cursor-tone="dark" className="relative overflow-hidden bg-espresso px-5 py-20 text-paper sm:px-8 sm:py-28">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-40"
@@ -144,7 +145,7 @@ function PhilosophyBands() {
         </Reveal>
       </section>
 
-      <section className="bg-surface/60 px-5 py-16 sm:px-8 sm:py-24">
+      <section data-cursor-tone="light" className="bg-surface/60 px-5 py-16 sm:px-8 sm:py-24">
         <Reveal className="mx-auto max-w-3xl">
           <p className="font-eyebrow text-[11px] uppercase tracking-[0.22em] text-ink">
             Purpose
@@ -160,7 +161,7 @@ function PhilosophyBands() {
 
 function AudienceSection() {
   return (
-    <section className="bg-paper">
+    <section data-cursor-tone="light" className="bg-paper">
       <div className="mx-auto max-w-6xl px-5 pb-6 pt-16 sm:px-8 sm:pt-24">
         <Reveal>
           <h2 className="font-serif text-[clamp(1.85rem,5vw,3.25rem)] leading-[1.08] tracking-tight text-ink">
@@ -210,7 +211,7 @@ function AudienceSection() {
 function VisionMission() {
   return (
     <>
-      <section className="relative overflow-hidden bg-espresso px-5 py-20 text-paper sm:px-8 sm:py-32">
+      <section data-cursor-tone="dark" className="relative overflow-hidden bg-espresso px-5 py-20 text-paper sm:px-8 sm:py-32">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-35"
@@ -229,7 +230,7 @@ function VisionMission() {
         </Reveal>
       </section>
 
-      <section className="bg-paper px-5 py-20 sm:px-8 sm:py-32">
+      <section data-cursor-tone="light" className="bg-paper px-5 py-20 sm:px-8 sm:py-32">
         <Reveal className="mx-auto max-w-3xl text-center sm:text-left">
           <p className="font-eyebrow text-[11px] uppercase tracking-[0.22em] text-ink">
             {ABOUT.mission.label}
@@ -245,7 +246,7 @@ function VisionMission() {
 
 function ContactClose() {
   return (
-    <section className="border-t border-ink/8 bg-surface/50 px-5 py-20 pb-[max(5rem,env(safe-area-inset-bottom))] sm:px-8 sm:py-28">
+    <section data-cursor-tone="light" className="border-t border-ink/8 bg-surface/50 px-5 py-20 pb-[max(5rem,env(safe-area-inset-bottom))] sm:px-8 sm:py-28">
       <Reveal className="mx-auto flex max-w-2xl flex-col items-start gap-8 sm:items-center sm:text-center">
         <p className="font-serif text-[clamp(1.5rem,4vw,2.25rem)] leading-[1.25] text-ink">
           {ABOUT.contact.lead}
@@ -263,7 +264,7 @@ function ContactClose() {
 
 export function AboutPageContent() {
   return (
-    <div className="bg-paper">
+    <div data-cursor-tone="light" className="bg-paper">
       <LexiconHero />
       <PhilosophyBands />
       <AudienceSection />

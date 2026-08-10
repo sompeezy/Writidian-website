@@ -66,7 +66,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-ink/10 bg-surface/60 pb-[env(safe-area-inset-bottom)]">
+    <footer data-cursor-tone="light" className="border-t border-ink/10 bg-surface/60 pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 sm:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="sm:col-span-2 lg:col-span-1">
