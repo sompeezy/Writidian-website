@@ -1,3 +1,4 @@
+import Script from "next/script";
 import type { Metadata } from "next";
 import {
   fraunces,
@@ -38,6 +39,18 @@ export default function RootLayout({
       className={`${fraunces.variable} ${sourceSans.variable} ${lora.variable} ${handlee.variable} ${merriweather.variable} h-full antialiased`}
     >
       <body className="min-h-full overflow-x-hidden bg-paper font-sans text-ink">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-03PTJD6QGR"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-03PTJD6QGR');
+          `}
+        </Script>
         <SoundProvider>
           <div className="grain" aria-hidden />
           <CustomCursor />
