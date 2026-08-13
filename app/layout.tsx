@@ -1,5 +1,5 @@
-import Script from "next/script";
 import type { Metadata } from "next";
+import Script from "next/script";
 import {
   fraunces,
   handlee,
@@ -15,6 +15,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.tagline}`,
   description: SITE.description,
+  icons: {
+    icon: [{ url: "/images/cursor-light.png", type: "image/png" }],
+    apple: [{ url: "/images/cursor-light.png", type: "image/png" }],
+  },
   openGraph: {
     title: SITE.name,
     description: SITE.description,
@@ -38,12 +42,12 @@ export default function RootLayout({
       lang="en"
       className={`${fraunces.variable} ${sourceSans.variable} ${lora.variable} ${handlee.variable} ${merriweather.variable} h-full antialiased`}
     >
-      <body className="min-h-full overflow-x-hidden bg-paper font-sans text-ink">
+      <head>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-03PTJD6QGR"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="beforeInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -51,6 +55,8 @@ export default function RootLayout({
             gtag('config', 'G-03PTJD6QGR');
           `}
         </Script>
+      </head>
+      <body className="min-h-full overflow-x-hidden bg-paper font-sans text-ink">
         <SoundProvider>
           <div className="grain" aria-hidden />
           <CustomCursor />
