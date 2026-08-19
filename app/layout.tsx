@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   title: `${SITE.name} — ${SITE.tagline}`,
   description: SITE.description,
   icons: {
-    icon: [{ url: "/images/cursor-light.png", type: "image/png" }],
-    apple: [{ url: "/images/cursor-light.png", type: "image/png" }],
+    icon: [{ url: "/images/fav.icon.png", type: "image/png" }],
+    apple: [{ url: "/images/fav.icon.png", type: "image/png" }],
   },
   openGraph: {
     title: SITE.name,
